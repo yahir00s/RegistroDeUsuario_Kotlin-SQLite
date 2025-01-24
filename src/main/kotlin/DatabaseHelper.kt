@@ -7,15 +7,14 @@ import java.sql.Statement
 data class Usuario(val nombre: String, val edad: Int, val sexo: String)
 
 class DatabaseHelper {
-        private val connection: Connection
+    private val connection: Connection
 
-        init {
+    init {
             connection = DriverManager.getConnection("jdbc:sqlite:usuarios.db")
             createTableIfNotExists()
-        }
+    }
 
-        // Crear la tabla de usuarios si no existe
-        private fun createTableIfNotExists() {
+    private fun createTableIfNotExists() {
             val stmt: Statement = connection.createStatement()
             val createTableSQL = """
             CREATE TABLE IF NOT EXISTS usuarios (
@@ -26,9 +25,9 @@ class DatabaseHelper {
             );
         """.trimIndent()
             stmt.executeUpdate(createTableSQL)
-        }
+    }
 
-        fun registrarUsuario(usuario: Usuario) {
+    fun registrarUsuario(usuario: Usuario) {
             val stmt: Statement = connection.createStatement()
             val insertSQL = """
             INSERT INTO usuarios (nombre, edad, sexo)
@@ -36,9 +35,9 @@ class DatabaseHelper {
         """.trimIndent()
             stmt.executeUpdate(insertSQL)
             println("Usuario registrado correctamente")
-        }
+    }
 
-        fun consultarUsuarios() {
+    fun consultarUsuarios() {
             val stmt: Statement = connection.createStatement()
             val resultSet: ResultSet = stmt.executeQuery("SELECT * FROM usuarios")
 
@@ -49,11 +48,22 @@ class DatabaseHelper {
                 val sexo = resultSet.getString("sexo")
                 println("ID: $id, Nombre: $nombre, Edad: $edad, Sexo: $sexo")
             }
-        }
+    }
 
-        // Cerrar la conexión
-        fun close() {
-            connection.close()
-        }
+    fun editarUsuarios(nombre: String, id: Int) {
+        val stmt: Statement = connection.createStatement()
+        val editar = """
+            UPDATE usuarios SET nombre = '${nombre}' 
+            WHERE id = '${id}'
+        """.trimIndent()
+        stmt.executeUpdate(editar)
+
+
+
+    }
+
+    fun close() {
+        connection.close()
+    }
     }
 
