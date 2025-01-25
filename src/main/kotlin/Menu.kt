@@ -42,8 +42,6 @@ class Menu () {
         println("Usuarios Registrados")
         val dbHelper = DatabaseHelper()
         dbHelper.consultarUsuarios()
-        opciones()
-
     }
 
     fun editar () {
@@ -63,6 +61,16 @@ class Menu () {
         opciones()
     }
     fun borrar () {
+        println("USUARIOS EXISTENTES")
+        consultar()
+        println("~~~~~~~~~~~~~~~~~~~~~~~")
+        println("ID DEL USUARIO A ELIMINAR")
+        val id = readlnOrNull()?.toIntOrNull()
+        val db = DatabaseHelper()
+        if (id != null) {
+            db.borrarUsuario(id)
+        }
+
 
     }
 

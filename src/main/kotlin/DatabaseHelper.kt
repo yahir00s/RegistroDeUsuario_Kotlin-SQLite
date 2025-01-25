@@ -57,9 +57,14 @@ class DatabaseHelper {
             WHERE id = '${id}'
         """.trimIndent()
         stmt.executeUpdate(editar)
+    }
 
-
-
+    fun borrarUsuario(id: Int) {
+        val stmt: Statement = connection.createStatement()
+        val borrar = """
+            DELETE FROM usuarios WHERE id = '${id}'
+        """.trimIndent()
+        stmt.executeUpdate(borrar)
     }
 
     fun close() {
